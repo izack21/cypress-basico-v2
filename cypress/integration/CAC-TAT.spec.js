@@ -1,9 +1,16 @@
 /// <reference types="Cypress" />
 
+
 describe('Central de Atendimento ao Cliente TAT', function(){
+    
+    
     beforeEach(function(){
         cy.visit('./src/index.html')
+
+
     })
+
+
 
     it('verifica o título da aplicação', function(){
         
@@ -18,17 +25,20 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         cy.get('#email').type("email@rmai.com.br")
         cy.get('#phone').type('99999999')
         cy.get('#open-text-area').type(longText,{delay:0})
-        cy.get('button[type="submit"]').click()
+        //cy.get('button[type="submit"]').click()
+        cy.contains('button','Enviar').click()
         cy.get('.success').should('be.visible')
     })
 
+    //ex.2
     it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function(){
         cy.get('#firstName').type("Izack")
         cy.get('#lastName').type("Rodrigues")
         cy.get('#email').type("email.com.br")
         cy.get('#phone').type('99999999')
         cy.get('#open-text-area').type('Testes')
-        cy.get('.button').click()
+        //cy.get('.button').click()
+        cy.contains('button','Enviar').click()
         cy.get('.error').should('be.visible')
 
     })
@@ -44,7 +54,8 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         cy.get('#email').type("email.com.br")
         cy.get('#open-text-area').type('Testes')
         cy.get('#phone-checkbox').check()
-        cy.get('.button').click()
+        //cy.get('.button').click()
+        cy.contains('button','Enviar').click()
         cy.get('.error').should('be.visible')
     })
     //ex.5
@@ -58,9 +69,16 @@ describe('Central de Atendimento ao Cliente TAT', function(){
     })
 
     //ex.6
-    it.only("exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatório",function(){
-        cy.get('.button').click()
+    it("exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatório",function(){
+        //cy.get('.button').click()
+        cy.contains('button','Enviar').click()
         cy.get('.error').should('be.visible')
+    })
+
+    //ex.7
+    it("envia o formuário com sucesso usando um comando customizado", function(){
+        cy.fillMandatoryFieldsAndSubmit()
+        cy.get('.success').should('be.visible')
     })
 })
 
